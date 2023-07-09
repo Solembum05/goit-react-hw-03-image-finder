@@ -1,12 +1,10 @@
 import React from 'react';
 import { ToastContainer, toast  } from 'react-toastify';
-
-import { ColorRing } from 'react-loader-spinner';
-  
 import Searchbar  from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import { fetchImg } from 'services/api';
 import LoadMoreButton from './Button/Button';
+import Loader from './Loader/Loader';
 
 
 
@@ -81,15 +79,7 @@ class App extends React.Component {
         )}
         {this.state.images.length > 0 && <LoadMoreButton loadMore = {this.loadMore} />}
         {this.state.isLoading && (
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-          />
+          <Loader/>
         )}
         <ToastContainer
           position="top-center"

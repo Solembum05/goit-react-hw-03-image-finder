@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React from 'react';
 import css from './ImageGalleryItem.module.css';
 import Modal from '../Modal/Modal'
