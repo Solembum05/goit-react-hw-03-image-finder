@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import css from './ImageGalleryItem.module.css';
 import Modal from '../Modal/Modal'
@@ -17,7 +17,7 @@ class ImageGalleryItem extends React.Component {
   };
 
   onCloseModal = () => {
-    this.setState(prevState => ({ isOpen: false}));
+    this.setState({isOpen: false});
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,5 +50,11 @@ class ImageGalleryItem extends React.Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  tags: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+};
 
 export default ImageGalleryItem;

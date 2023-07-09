@@ -19,13 +19,14 @@ class App extends React.Component {
 
 
   onSubmitForm = searchQuery => {
-    this.setState({
-      search: searchQuery,
-    });
+    if (this.state.searchQuery === searchQuery) {
+      return;
+    }
+    this.setState({ search: searchQuery, page: 1, images: [] });
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { search, page } = this.state;
+    const { search, page, } = this.state;
     if (prevState.search !== search || prevState.page !== page) {
       this.fetchImages();
     }
@@ -45,11 +46,14 @@ class App extends React.Component {
         );
         return;
       }
-      this.setState({ isLoading: true });
       
-      this.setState(prevState => ({
-        images: [...prevState.images, ...images]
-      }));
+      this.setState({ isLoading: true });
+
+
+      this.setState(prevState => (
+        {
+          images: [...prevState.images, ...images],
+        }));
     } catch (error) {
       this.setState({ error: error.messege });
       toast.error(error.message);

@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 class Modal extends React.Component {
@@ -36,5 +36,13 @@ class Modal extends React.Component {
     );
   }
 }
+Modal.propTypes = {
+  dataImage: PropTypes.shape({
+    tags: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+  }),
+
+  onCloseModal: PropTypes.func.isRequired,
+};
 
 export default Modal;
