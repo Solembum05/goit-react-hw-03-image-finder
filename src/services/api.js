@@ -15,6 +15,6 @@ export const fetchImg = async (dataSubmit, page) => {
   const responce = await axios.get(
     `${URL}?key=${API_KEY}&q=${dataSubmit}&page=${page}&${options}`
   );
-  return responce.data.hits;
+  return responce.data;
 };
 

@@ -13,14 +13,14 @@ class Modal extends React.Component {
     document.body.classList.toggle('overflow');
   }
 
-  closeEscape = evt => {
-    if (evt.code === 'Escape') {
+  closeEscape = event => {
+    if (event.code === 'Escape') {
       this.props.onCloseModal();
     }
   };
 
-  closeOverlay = evt => {
-    if (evt.target.nodeName === 'DIV') {
+  closeOverlay = event => {
+    if (event.currentTarget !== event.target) {
       this.props.onCloseModal();
     }
   };

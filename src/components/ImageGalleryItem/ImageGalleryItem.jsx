@@ -6,33 +6,23 @@ import Modal from '../Modal/Modal'
 
 class ImageGalleryItem extends React.Component {
   state = {
-    isOpen: false,
-    data: {},
+    isOpenModal: false,
   };
 
-  onOpenModal = () => {
-    const { tags, largeImageURL } = this.props;
-    const data = { tags, largeImageURL };
-    this.setState({ isOpen: true, data });
+  toggleModal = () => {
+    this.setState(({ isOpenModal }) => ({
+      isOpenModal: !isOpenModal,
+    }));
   };
-
-  onCloseModal = () => {
-    this.setState({isOpen: false});
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.data !== this.state.data) {
-      this.setState(prevState => ({ isOpen: true }));
-    }
-  }
+  
   render() {
-    const {webformatURL, tags} = this.props
+    const { webformatURL, tags, largeImageURL } = this.props;
     return (
       <div>
         <li
           className={css.ImageGalleryItem}
           onClick={() => {
-            this.onOpenModal();
+            this.toggleModal();
           }}
         >
           <img
@@ -40,11 +30,12 @@ class ImageGalleryItem extends React.Component {
             src={webformatURL}
             alt={tags}
           />
-          {this.state.isOpen === true && (
+          {this.state.isOpenModal === true && (
             <Modal
-              data={this.state.data}
-              onCloseModal={this.onCloseModal} />
-            )}
+              data={{ tags, largeImageURL }}
+              onCloseModal={this.toggleModal}
+            />
+          )}
         </li>
       </div>
     );

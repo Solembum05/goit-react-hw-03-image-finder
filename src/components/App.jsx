@@ -15,6 +15,7 @@ class App extends React.Component {
     error: null,
     search: '',
     page: 1,
+    totalImages: 0,
   };
 
 
@@ -22,7 +23,7 @@ class App extends React.Component {
     if (this.state.searchQuery === searchQuery) {
       return;
     }
-    this.setState({ search: searchQuery, page: 1, images: [] });
+    this.setState({ search: searchQuery, page: 1, images: [], totalImages: 0});
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -34,6 +35,8 @@ class App extends React.Component {
 
   fetchImages = async () => {
     const { search, page } = this.state;
+    
+    this.setState({ isLoading: true, error: null });
 
     try {
       const images = await fetchImg(search, page);
@@ -47,13 +50,13 @@ class App extends React.Component {
         return;
       }
       
-      this.setState({ isLoading: true });
 
 
-      this.setState(prevState => (
-        {
-          images: [...prevState.images, ...images],
-        }));
+      this.setState(prevState => ({
+        images: [...prevState.images, ...images.hits],
+        totalImages: images.totalHits,
+      }));
+      
     } catch (error) {
       this.setState({ error: error.messege });
       toast.error(error.message);
@@ -72,19 +75,18 @@ class App extends React.Component {
   };
 
   render() {
+
+    const {images, isLoading, totalImages} = this.state
     return (
       <div>
         <Searchbar onSubmit={this.onSubmitForm} />
-        {this.state.images.length > 0 && (
-          <ImageGallery
-            onOpenModal={this.onOpenModal}
-            images={this.state.images}
-          />
+        {images.length > 0 && (
+          <ImageGallery onOpenModal={this.onOpenModal} images={images} />
         )}
-        {this.state.images.length > 0 && <LoadMoreButton loadMore = {this.loadMore} />}
-        {this.state.isLoading && (
-          <Loader/>
+        {!isLoading && images.length !== totalImages && (
+          <LoadMoreButton loadMore={this.loadMore} />
         )}
+        {isLoading && <Loader />}
         <ToastContainer
           position="top-center"
           autoClose={2000}
